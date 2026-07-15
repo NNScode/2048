@@ -1,0 +1,23 @@
+# STM32CubeIDE generated build directories
+STM32CubeIDE/Debug/
+STM32CubeIDE/Release/
+
+# Compiler and linker outputs
+*.o
+*.d
+*.su
+*.cyclo
+*.elf
+*.hex
+*.bin
+*.map
+*.list
+*.log
+default.size.stdout
+
+# IDE and operating-system noise
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+*~
