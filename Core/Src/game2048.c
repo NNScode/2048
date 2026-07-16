@@ -123,12 +123,13 @@ bool Game2048_Move(Game2048 *game, GameDirection direction,
         if (merged < 32U) {
           result->score_delta += (1UL << merged);
         }
+        source = (uint8_t)(source + 2U);
       } else {
         game->cells[row][col] = values[source];
         add_motion(result, direction, line, sources[source], destination,
                    values[source]);
+        ++source;
       }
-      ++source;
       ++destination;
     }
   }
