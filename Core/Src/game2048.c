@@ -145,3 +145,39 @@ bool Game2048_Move(Game2048 *game, GameDirection direction,
   (void)spawn_tile(game, random_function, result);
   return true;
 }
+
+GameStatus Game2048_GetStatus(const Game2048 *game)
+{
+  bool moves_remain = false;
+  bool has_target = false;
+
+  for (uint8_t row = 0U; row < GAME2048_SIZE; ++row) {
+    for (uint8_t col = 0U; col < GAME2048_SIZE; ++col) {
+      uint8_t value = game->cells[row][col];
+      if (value == 0U) {
+        moves_remain = true;
+      }
+      if (value >= GAME2048_TARGET_EXPONENT) {
+        has_target = true;
+      }
+      if ((col + 1U < GAME2048_SIZE) &&
+          (value == game->cells[row][col + 1U])) {
+        moves_remain = true;
+      }
+      if ((row + 1U < GAME2048_SIZE) &&
+          (value == game->cells[row + 1U][col])) {
+        moves_remain = true;
+      }
+    }
+  }
+
+  if (has_target && !game->win_acknowledged) {
+    return GAME_STATUS_WON;
+  }
+  return moves_remain ? GAME_STATUS_PLAYING : GAME_STATUS_OVER;
+}
+
+void Game2048_ContinueAfterWin(Game2048 *game)
+{
+  game->win_acknowledged = true;
+}

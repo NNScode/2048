@@ -5,6 +5,7 @@
 #include <stdint.h>
 
 #define GAME2048_SIZE 4U
+#define GAME2048_TARGET_EXPONENT 11U
 
 typedef enum {
   GAME_DIR_LEFT = 0,
@@ -12,6 +13,12 @@ typedef enum {
   GAME_DIR_UP,
   GAME_DIR_DOWN
 } GameDirection;
+
+typedef enum {
+  GAME_STATUS_PLAYING = 0,
+  GAME_STATUS_WON,
+  GAME_STATUS_OVER
+} GameStatus;
 
 typedef struct {
   uint8_t from_row;
@@ -35,6 +42,7 @@ typedef struct {
 typedef struct {
   uint8_t cells[GAME2048_SIZE][GAME2048_SIZE];
   uint32_t score;
+  bool win_acknowledged;
 } Game2048;
 
 typedef uint32_t (*GameRandomFunction)(void);
@@ -42,5 +50,7 @@ typedef uint32_t (*GameRandomFunction)(void);
 void Game2048_New(Game2048 *game, GameRandomFunction random_function);
 bool Game2048_Move(Game2048 *game, GameDirection direction,
                    GameRandomFunction random_function, GameMoveResult *result);
+GameStatus Game2048_GetStatus(const Game2048 *game);
+void Game2048_ContinueAfterWin(Game2048 *game);
 
 #endif
